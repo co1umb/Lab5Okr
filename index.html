@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+  <body>
+    <div id="work">
+    <div id="controls"><div id="mess"></div><button id="close" onclick="closeDiv()">close</button> <button id="start">start</button><button id="stop">stop</button><button id="reload">reload</button></div>
+      <div id="anim"> 
+        <div id="ball">&nbsp </div>
+    </div>
+    </div>
+    <div id="container">
+<div id="first">1 <div id="x">x</div></div>
+<div id="second">2</div>
+<div id="third"><button id="play" onclick="viewDiv()">play</button></div>
+<div id="fourth">4</div>
+<div id="fifth">5</div>
+<div id="sixth">6 <div id="y">y</div></div>
+</div>
+<script>
+  function viewDiv(){
+  document.getElementById("work").style.display = "block";
+  document.getElementById("container").style.bottom = "78%";
+  mess.innerText = "Нажата play " + new Date();  
+  let val = document.getElementById("mess").innerHTML;
+  localStorage.setItem("mess1", val);
+};
+function closeDiv(){
+  document.getElementById("work").style.display = "none";
+  document.getElementById("container").style.bottom = "0%";
+  mess.innerText = "Нажата close "  + new Date();
+  let val = document.getElementById("mess").innerHTML;
+  localStorage.setItem("mess2", val);
+  third.innerHTML = localStorage.getItem("mess1") + "<p>" + localStorage.getItem("mess2") + "<p>" + localStorage.getItem("mess3") + "<p>" + localStorage.getItem("mess4") + "<p>" + localStorage.getItem("mess5") + "<p>" + localStorage.getItem("mess6") + "<p>" + localStorage.getItem("mess7");
+}
+  </script>
+
+  <script> 
+  let elem = document.getElementById("ball");   
+  let width = elem.style.left;
+  let pos = 10;
+  let i = 1;
+  let x = getRandomArbitrary(1, 5);
+  function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+  function frame() {
+    if (pos > 600  && pos != 0) {
+      i++;
+      pos++;
+      elem.style.top = (pos - 2*i) + "px";
+      elem.style.left = Math.atan(x)*pos + "px"; 
+      width++;
+    } if (pos <= 600) {
+      width++;
+      pos++; 
+      elem.style.top = pos + "px"; 
+      elem.style.left = Math.atan(x)*pos + "px"; 
+    }  if (pos == 600){
+      mess.innerText = "Дотик до стінки " + new Date();
+      let val = document.getElementById("mess").innerHTML;
+      localStorage.setItem("mess3", val);
+    }
+    
+    if (width == 1132) {
+      mess.innerHTML  = "Виліт " + new Date();
+      let val = document.getElementById("mess").innerHTML;
+      localStorage.setItem("mess4", val);
+      document.getElementById("stop").style.display = "none";
+      document.getElementById("reload").style.display = "inline";
+      elem.style.display = "none";
+    }
+  }
+  start.onclick = () => {let id = setInterval(frame, 1)
+   document.getElementById("start").style.display = "none";
+   document.getElementById("stop").style.display = "inline";
+   mess.innerText = "Нажата start " + new Date();
+   let val = document.getElementById("mess").innerHTML;
+  localStorage.setItem("mess5", val);
+
+   let stop = document.getElementById("stop");
+
+   stop.addEventListener('click', ()=> {
+    document.getElementById("start").style.display = "inline";
+   document.getElementById("stop").style.display = "none";
+     clearInterval(id);
+     mess.innerText = "Нажата stop " + new Date();
+     let val = document.getElementById("mess").innerHTML;
+  localStorage.setItem("mess6", val);
+   })
+
+   reload.addEventListener('click', ()=> {
+    elem.style.display = "inline";
+    document.getElementById("start").style.display = "inline";
+    document.getElementById("reload").style.display = "none";
+    clearInterval(id);
+    elem1 = document.getElementById("ball");  
+    elem1.style.left = 0 + "px";
+    elem1.style.top = 0 + "px";
+    pos = 10; 
+    i = 1;
+    width=0;
+    mess.innerText = "Нажата reload " + new Date();
+    let val = document.getElementById("mess").innerHTML;
+    localStorage.setItem("mess7", val);
+   })
+}
+  </script>
+  </body>
+</html>

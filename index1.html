@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style1.css" type="text/css">
+    <style>body{margin:0;overflow:hidden}</style>
+  </head>
+  <body>
+    <div id="work">
+      <div id="controls"><div id="mess"></div><button id="close" onclick="closeDiv()">close</button> <button id="start">start</button><button id="stop">stop</button><button id="reload">reload</button></div>
+        <div id="anim"> 
+          <canvas id="game" width="1145" height="625" ></canvas>
+          </div>
+      </div>
+      </div>
+    <div id="container">
+      <div id="first">1 <div id="x">x</div></div>
+      <div id="second">2</div>
+      <div id="third"><button id="play" onclick="viewDiv()">play</button></div>
+      <div id="fourth">4</div>
+      <div id="fifth">5</div>
+      <div id="sixth">6 <div id="y">y</div></div>
+      </div>
+      <script>
+        function viewDiv(){
+        document.getElementById("work").style.display = "block";
+        document.getElementById("container").style.bottom = "78%";
+        mess.innerText = "Нажата play " + new Date();  
+        let val = document.getElementById("mess").innerHTML;
+        localStorage.setItem("mess1", val);
+      };
+      function closeDiv(){
+        document.getElementById("work").style.display = "none";
+        document.getElementById("container").style.bottom = "0%";
+        mess.innerText = "Нажата close "  + new Date();
+        let val = document.getElementById("mess").innerHTML;
+        localStorage.setItem("mess2", val);
+        third.innerHTML = localStorage.getItem("mess1") + "<p>" + localStorage.getItem("mess2") + "<p>" + localStorage.getItem("mess3") + "<p>" + localStorage.getItem("mess4") + "<p>" + localStorage.getItem("mess5") + "<p>" + localStorage.getItem("mess6") + "<p>" + localStorage.getItem("mess7");
+      }
+        </script>
+    <script>
+      const FPS = 30;
+      var bs = 32;
+      var bx, by;
+      var xv, yv;
+      var canvas, context;
+      var img = new  Image();
+      img.src = "152014.jpg"
+
+            reload.onclick = function(){
+              mess.innerText = "Нажата reload " + new Date();
+              let val = document.getElementById("mess").innerHTML;
+              localStorage.setItem("mess7", val);
+              document.getElementById("reload").style.display = "none";
+              document.getElementById("start").style.display = "inline";
+         } 
+    start.onclick = () => {let move = setInterval(update, 320 / FPS);
+      document.getElementById("start").style.display = "none";
+      document.getElementById("stop").style.display = "inline";
+      mess.innerText = "Нажата start " + new Date();
+      let val = document.getElementById("mess").innerHTML;
+      localStorage.setItem("mess5", val);
+      canvas = document.getElementById("game");
+      context = canvas.getContext("2d");
+      
+      document.getElementById("stop").addEventListener('click', ()=> {
+          mess.innerText = "Нажата stop " + new Date();
+          let val = document.getElementById("mess").innerHTML;
+          localStorage.setItem("mess6", val);
+          document.getElementById("start").style.display = "inline";
+          document.getElementById("stop").style.display = "none";
+          context.closePath();
+          clearInterval(move);
+      });
+     
+      bx = 0;
+      by = 0;
+      
+      
+      xv = Math.floor(Math.random() * 76 + 25) / FPS;
+      yv = Math.floor(Math.random() * 76 + 25) / FPS;
+      
+      
+      if (Math.floor(Math.random() * 2) == 0) {
+          xv = -xv;
+      }
+      if (Math.floor(Math.random() * 2) == 0) {
+          yv = -yv;
+      } 
+      
+      function update() {
+
+          bx += xv;
+          by += yv;
+          
+          if (bx - bs / 2 < 0 && xv < 0) {
+              xv = -xv;
+              mess.innerText = "Дотик до стінки " + new Date();
+              let val = document.getElementById("mess").innerHTML;
+              localStorage.setItem("mess3", val);
+          }
+          if (bx + bs / 2 > 1165 && xv > 0) {
+            mess.innerHTML  = "Виліт " + new Date();
+            let val = document.getElementById("mess").innerHTML;
+            localStorage.setItem("mess4", val);
+            document.getElementById("stop").style.display = "none";
+            document.getElementById("reload").style.display = "inline";
+            clearInterval(move);
+            context.closePath();
+          }
+          if (by - bs / 2 < 0 && yv < 0) {
+              yv = -yv;
+              mess.innerText = "Дотик до стінки " + new Date();
+              let val = document.getElementById("mess").innerHTML;
+              localStorage.setItem("mess3", val);
+          }
+          if (by + bs / 2 > canvas.height && yv > 0) {
+              yv = -yv;
+              mess.innerText = "Дотик до стінки " + new Date();
+              let val = document.getElementById("mess").innerHTML;
+              localStorage.setItem("mess3", val);
+          }
+          let pattern = context.createPattern(img, 'repeat');
+          context.fillStyle = pattern;
+          context.fillRect(0, 0, 1140, 620);
+          context.beginPath();
+          context.arc(bx, by, 10, 0, Math.PI*2);
+          context.fillStyle = "yellow";
+          context.fill();
+          context.closePath();
+      }
+    }
+  </script>
+  </body>
+</html>
